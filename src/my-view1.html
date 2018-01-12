@@ -1,0 +1,150 @@
+<script src="https://cdn.vaadin.com/vaadin-elements/1.1.0/webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-box/app-box.html">
+<link rel="import" href="../bower_components/vaadin-material-theme/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-column.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-column-group.html">
+<link rel="import" href="../bower_components/vaadin-material-theme/vaadin-button.html">
+<link rel="import" href="../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../bower_components/iron-behaviors/iron-button-state.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-fab-speed-dial/paper-fab-speed-dial.html">
+<link rel="import" href="../bower_components/paper-fab-speed-dial/paper-fab-speed-dial-action.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-view1">
+    
+  <template>
+      <style include="shared-styles">
+          :host {
+        --material-primary-color: #4285f4;
+        --material-body-text-color: #757575;
+              --primary-color: #4285f4;
+
+      }
+          
+          vaadin-grid {
+              height: auto;
+          }
+          app-toolbar {
+              
+          }
+
+          app-header {
+              margin-bottom: 0px;
+              padding-left: 8px;
+          }
+          app-header{
+              height: 200px;
+              color:white;
+              background-color:#0563ff;
+          }
+
+      
+      
+      </style>
+      
+
+      
+    
+      
+
+    <iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=10" handle-as="json" last-response="{{users}}"></iron-ajax>
+    
+    <div class="card">
+                            <app-toolbar>KUNDENLISTE</app-toolbar>
+                            <paper-icon-button id="id_2" icon="delete" on-tap="retrieveResults"></paper-icon-button>
+                            <paper-tooltip for="id_2" offset="0">Löschen</paper-tooltip>
+                            <paper-icon-button icon="search" on-tap="retrieveResults"></paper-icon-button>
+                            <paper-input  on-input="retrieveResults" label="Suchen..." style="display:inline-block" no-label-float></paper-input>
+                            <paper-icon-button icon="cached"></paper-icon-button>
+                            <paper-menu-button iron-select>
+                                    <paper-button slot="dropdown-trigger" raised>
+                                <iron-icon icon="add"></iron-icon>
+                                <span>MEHR</span>
+                                    </paper-button>
+                                    <paper-listbox slot="dropdown-content">
+                                    <paper-item>alpha</paper-item>
+                                    <paper-item>beta</paper-item>
+                                    <paper-item>gamma</paper-item>
+                                    <paper-item>delta</paper-item>
+                                    <paper-item>epsilon</paper-item>
+                                    </paper-listbox>
+                            </paper-menu-button>
+					        <paper-icon-button icon="filter-list"></paper-icon-button>
+        				    <paper-icon-button icon="more-vert"></paper-icon-button>
+        
+    <vaadin-grid  theme="row-dividers" items="[[users.result]]" column-reordering-allowed multi-sort>
+           
+        <vaadin-grid-selection-column auto-select width="56px"> </vaadin-grid-selection-column>
+        
+        <vaadin-grid-column width="1em" flex-grow="1">
+        <template><iron-icon icon="icons:star"></iron-icon></template>
+      </vaadin-grid-column>
+        
+            <vaadin-grid-column width="9em">
+            <template class="header">
+            <vaadin-grid-sorter path="firstName">Vorname</vaadin-grid-sorter>
+            </template>
+            <template>[[item.firstName]]</template>
+            </vaadin-grid-column>
+
+      <vaadin-grid-column width="9em">
+        <template class="header">
+          <vaadin-grid-sorter path="lastName">Nachname</vaadin-grid-sorter>
+        </template>
+        <template>[[item.lastName]]</template>
+      </vaadin-grid-column>
+
+      <vaadin-grid-column width="15em" flex-grow="2">
+        <template class="header">
+          <vaadin-grid-sorter path="address.street">Adresse</vaadin-grid-sorter>
+        </template>
+        <template>[[item.address.street]], [[item.address.city]]</template>
+      </vaadin-grid-column>
+
+      <vaadin-grid-column width="15em" flex-grow="2">
+        <template class="header">
+          <vaadin-grid-sorter path="address.street">E-Mail</vaadin-grid-sorter>
+        </template>
+        <template>[[item.address.street]], [[item.address.city]]</template>
+      </vaadin-grid-column>
+        
+        <vaadin-grid-column width="2em" flex-grow="1">
+        <template class="header">Bearbeiten</template>
+        <template><iron-icon icon="icons:create"></iron-icon></template>
+      </vaadin-grid-column>
+        
+        
+    </vaadin-grid>
+    </div> 
+      
+<paper-fab-speed-dial></paper-fab-speed-dial>      
+  </template>
+  
+  <script>
+    class MyView1 extends Polymer.Element {
+      static get is() { return 'my-view1'; }
+    }
+
+    window.customElements.define(MyView1.is, MyView1);
+      
+      
+  </script>
+
+</dom-module>
